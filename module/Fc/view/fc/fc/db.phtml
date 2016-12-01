@@ -1,0 +1,35 @@
+<?php 
+    //Specify the path where the Fusioncharts Wrapper is present
+
+    //Empty array to hold all the data from the table
+    $datas = [];  
+
+    //Loop to extract all the data 
+    foreach ($albums as $album){
+        $data = ["label" => $album->month , "value" => $album->revenue];
+        array_push($datas, $data) ;
+    }
+
+    //Call the Fusioncharts Class to render the chart
+    $columnChart = new FusionCharts("column2d", "myFirstChart1" , 600, 300, "chart 2", "json",
+        '{
+            "chart": {
+                "caption": "Quarterly Revenue",
+                "subCaption": "Last year",
+                "xAxisName": "Quarter",
+                "yAxisName": "Amount (In USD)",
+                "theme": "fint",
+                "numberPrefix": "$",
+                //Setting the usage of plot gradient
+                "usePlotGradientColor": "1",
+                //Custom plot gradient color
+                "plotGradientColor": "#eeeeee"
+            },
+            "data": '.json_encode($datas).'
+        }'
+    );
+    //Rendering Chart
+    $columnChart->render();          
+?>
+
+<div id="chart 2">Fusion Charts will render here</div>
